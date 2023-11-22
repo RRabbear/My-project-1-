@@ -2,6 +2,7 @@
 using UnityEngine;
 using Assets.Scripts.BaseUtils;
 using BuildingSystem;
+using Assets.Scripts.UI;
 
 namespace Assets.Scripts.Core
 {
@@ -13,6 +14,12 @@ namespace Assets.Scripts.Core
 
         [field: SerializeField]
         public BuildingLayer BuildingLayer { get; private set; }
+
+        private void Awake()
+        {
+            base.Awake();
+            UI.UIManager.Instance.InitUIManager();
+        }
 
         // Use this for initialization
         void Start()
