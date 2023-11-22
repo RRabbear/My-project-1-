@@ -11,6 +11,17 @@ namespace Assets.Scripts.Core
     {
         SpawnItem,
     }
+
+    public enum GamePlay2D_CMD_Building
+    {
+        CreateBuilding
+    }
+
+    public enum GamePlay2D_HOOK_Building
+    {
+
+    }
+
     public class SpawnItemEventArgs : BaseEventArgs
     {
         public string ObjectName;
