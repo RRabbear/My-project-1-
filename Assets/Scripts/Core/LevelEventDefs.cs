@@ -22,6 +22,11 @@ namespace Assets.Scripts.Core
 
     }
 
+    public enum GamePlay2D_CMD_Character
+    {
+        Spawn_Hero
+    }
+
     public class SpawnItemEventArgs : BaseEventArgs
     {
         public string ObjectName;

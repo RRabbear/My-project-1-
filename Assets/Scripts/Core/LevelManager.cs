@@ -43,7 +43,7 @@ namespace Assets.Scripts.Core
         //事件队列单线程地处理所有事件（允许插队机制)，用来处理必须严格有先后顺序的功能
         private void InitLevelEventQueue()
         {
-
+            LevelEventQueue.Instance.InitEventQueue();
         }
         
 
