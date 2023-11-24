@@ -154,13 +154,13 @@ public class RoleDatabase : TableDatabase
 public class GameTableConfig : Singleton<GameTableConfig>
 {
     //角色表
-    public class RoleTable : ConfigTable<RoleDatabase, RoleTable>
-    {
-        void Awake()
-        {
-            //加载对应表所对应的路径
-            load("Config/RoleTable.csv");
-        }
-    }
+    //public class RoleTable : ConfigTable<RoleDatabase, RoleTable>
+    //{
+    //    void Awake()
+    //    {
+    //        //加载对应表所对应的路径
+    //        load("Config/RoleTable.csv");
+    //    }
+    //}
 }
 

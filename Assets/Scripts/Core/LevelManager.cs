@@ -36,7 +36,7 @@ namespace Assets.Scripts.Core
             LevelEventQueue.Instance.EnqueueEvent(new Character_CMD_AddTool(GamePlay2D_CMDType_Character.Character_AddTool, null, 1, GetHeroInGameInstaceBase<CharacterBase>()));
             
             //创建模式栏UI
-            UIManager.Instance.CreateUIByName<BaseUI>("UI_BuildingList" , UILayers.UILayers_Default);
+            //UIManager.Instance.CreateUIByName<BaseUI>("UI_BuildingList" , UILayers.UILayers_Default);
         }
 
         //事件系统通过回调，严格控制游戏的整体运行流程。但由于事件的触发分布在各个GameObject中，所以无法严格保证先后顺序
