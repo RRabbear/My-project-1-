@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e576e715710f8a42aaff888014500fc, type: 3}
   m_Name: Board01
   m_EditorClassIdentifier: 
-  <Name>k__BackingField: Board01
-  <Tile>k__BackingField: {fileID: 11400000, guid: 3dc0cf48fce365d45b21ae0de53f469d, type: 2}
+  Data:
+    Name: Board01
+    Tile: {fileID: 11400000, guid: 3dc0cf48fce365d45b21ae0de53f469d, type: 2}
+    PreviewSprite: {fileID: 21300000, guid: 625475b38887ca844921b1d176d1db7c, type: 3}

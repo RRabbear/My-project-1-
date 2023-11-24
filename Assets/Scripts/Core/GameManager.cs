@@ -18,6 +18,7 @@ namespace Assets.Scripts.Core
         private InputActionsHandler _inputActionsHandler;
 
 
+
         private void Awake()
         {
             base.Awake();
@@ -33,10 +34,13 @@ namespace Assets.Scripts.Core
         // Update is called once per frame
         void Update()
         {
-            if(BuildingLayer != null && _inputActionsHandler.IsMouseLeftButtonPressed)
+            BuildingLayer.ShowPreview(_inputActionsHandler.MouseWorldPosition, Item);
+            if (_inputActionsHandler.IsMouseLeftButtonPressed
+                && BuildingLayer != null 
+                && Item != null
+                && BuildingLayer.IsEmpty(_inputActionsHandler.MouseWorldPosition))
             {
-                var worldCoords = Camera.main.ScreenToWorldPoint(_inputActionsHandler.MousePostion);
-                BuildingLayer.Build(worldCoords, Item);
+                BuildingLayer.Build(_inputActionsHandler.MouseWorldPosition, Item);
             }
         }
     }

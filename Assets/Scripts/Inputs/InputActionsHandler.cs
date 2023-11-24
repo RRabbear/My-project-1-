@@ -8,8 +8,16 @@ namespace Assets.Scripts.Inputs
     {
         private InputActions _inputActions;
 
-        public Vector2 MousePostion;
+        public Vector2 MousePosition;
         public bool IsMouseLeftButtonPressed = false;
+
+        public Vector3 MouseWorldPosition 
+        { 
+            get
+            {
+                return Camera.main.ScreenToWorldPoint(MousePosition);
+            } 
+        }
 
         private void OnEnable()
         {
@@ -29,7 +37,7 @@ namespace Assets.Scripts.Inputs
 
         private void OnMousePositionPerformed(InputAction.CallbackContext obj)
         {
-            MousePostion = obj.ReadValue<Vector2>();
+            MousePosition = obj.ReadValue<Vector2>();
         }
 
         private void OnMouseActionPerformed(InputAction.CallbackContext obj)
