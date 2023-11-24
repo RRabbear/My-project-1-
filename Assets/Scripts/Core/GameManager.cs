@@ -1,8 +1,7 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.BaseUtils;
+using Assets.Scripts.BuildingSystem;
+using Assets.Scripts.Inputs;
 using UnityEngine;
-using Assets.Scripts.BaseUtils;
-using BuildingSystem;
-using Assets.Scripts.UI;
 
 namespace Assets.Scripts.Core
 {
@@ -14,6 +13,10 @@ namespace Assets.Scripts.Core
 
         [field: SerializeField]
         public BuildingLayer BuildingLayer { get; private set; }
+
+        [SerializeField]
+        private InputActionsHandler _inputActionsHandler;
+
 
         private void Awake()
         {
@@ -30,10 +33,10 @@ namespace Assets.Scripts.Core
         // Update is called once per frame
         void Update()
         {
-            if(BuildingLayer != null && Input.GetMouseButtonDown(0))
+            if(BuildingLayer != null && _inputActionsHandler.IsMouseLeftButtonPressed)
             {
-                BuildingLayer.Build(Camera.main.ScreenToWorldPoint(Input.mousePosition), Item);
-                Debug.Log("---build---");
+                var worldCoords = Camera.main.ScreenToWorldPoint(_inputActionsHandler.MousePostion);
+                BuildingLayer.Build(worldCoords, Item);
             }
         }
     }
