@@ -2,6 +2,7 @@
 using UnityEngine;
 using Assets.Scripts.BaseUtils;
 using Assets.Scripts.UI;
+using Assets.Scripts.GamePlay2D;
 
 namespace Assets.Scripts.Core
 {
@@ -14,9 +15,27 @@ namespace Assets.Scripts.Core
             InitLevelEventQueue();
         }
 
+        private GameObject getHeroGameObject()
+        {
+            return null;
+        }
+
+        public T GetHeroInGameInstaceBase<T>() where T:CharacterBase
+        {
+            return null;
+        }
+
+
         // Use this for initialization
         void Start()
         {
+            //创建主角            
+            LevelEventQueue.Instance.EnqueueEvent(new Character_CMD_SpawnEventArgs(GamePlay2D_CMDType_Character.Character_Spawn,null,Vector3.zero, CharacterSpwnType.AsHero, getHeroGameObject()));
+
+            //为主角添加一个Type1工具
+            LevelEventQueue.Instance.EnqueueEvent(new Character_CMD_AddTool(GamePlay2D_CMDType_Character.Character_AddTool, null, 1, GetHeroInGameInstaceBase<CharacterBase>()));
+            
+            //创建模式栏UI
             UIManager.Instance.CreateUIByName<BaseUI>("UI_BuildingList" , UILayers.UILayers_Default);
         }
 
@@ -43,7 +62,7 @@ namespace Assets.Scripts.Core
         //事件队列单线程地处理所有事件（允许插队机制)，用来处理必须严格有先后顺序的功能
         private void InitLevelEventQueue()
         {
-
+            LevelEventQueue.Instance.InitEventQueue();
         }
         
 
