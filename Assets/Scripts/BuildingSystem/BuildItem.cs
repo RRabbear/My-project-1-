@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace BuildingSystem
+namespace Assets.Scripts.BuildingSystem
 {
     [CreateAssetMenu(menuName = "Build/BuildItem", fileName = "BuildItem")]
     public class BuildItem : ScriptableObject

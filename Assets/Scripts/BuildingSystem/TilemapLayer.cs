@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace BuildingSystem
+namespace Assets.Scripts.BuildingSystem
 {
     [RequireComponent(typeof(Tilemap))]
     public class TilemapLayer : MonoBehaviour
