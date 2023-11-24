@@ -51,7 +51,7 @@ namespace Assets.Scripts.UI
 
             new_UIObject.GetComponent<Canvas>().sortingOrder = GetNewUILayerValue(layer);
             T retMono = new_UIObject.GetComponent<T>();
-            retMono.InitUI();
+            //retMono.InitUI();
             return retMono;
         }
     }

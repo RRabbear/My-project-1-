@@ -24,7 +24,7 @@ public class ConfigTable<TDatabase> where TDatabase : TableDatabase , new()
         MemoryStream tableStream;
 
         //开发期，读Progect/Config下的csv文件
-        var srcPath = Application.dataPath + "/../" + tablePath;
+        var srcPath = "Assets/Configs/" + tablePath;
         tableStream = new MemoryStream(File.ReadAllBytes(srcPath));
 
         //内存流读取器 using 自动关闭流
@@ -142,6 +142,10 @@ public class ConfigTable<TDatabase> where TDatabase : TableDatabase , new()
         return _cache;
     }
 
+    public ConfigTable(string fromPath)
+    {
+        load(fromPath);
+    }
 }
 
 //角色表内数据结构
@@ -154,13 +158,6 @@ public class RoleDatabase : TableDatabase
 public class GameTableConfig : Singleton<GameTableConfig>
 {
     //角色表
-    public class RoleTable : ConfigTable<RoleDatabase, RoleTable>
-    {
-        void Awake()
-        {
-            //加载对应表所对应的路径
-            load("Config/RoleTable.csv");
-        }
-    }
+    public ConfigTable<RoleDatabase> RoleTable = new ConfigTable<RoleDatabase>("RoleTable.csv");
 }
 
