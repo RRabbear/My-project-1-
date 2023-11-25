@@ -6,6 +6,7 @@ using System.Text;
 using System.Reflection;
 
 using Assets.Scripts.BaseUtils;
+using System.Linq;
 
 //所有表数据的基类  存储的属性
 public class TableDatabase
@@ -14,17 +15,21 @@ public class TableDatabase
 }
 
 //表格基类<存储的属性,具体表类>
-public class ConfigTable<TDatabase> where TDatabase : TableDatabase , new()
+public class ConfigTable<TDatabase> where TDatabase : TableDatabase, new()
 {
     //id，数据条目
     public Dictionary<int, TDatabase> _cache = new Dictionary<int, TDatabase>();
 
-    protected void load(string tablePath)
+    public ConfigTable(string load_from_path){
+        load(load_from_path);
+    
+    }
+    public void load(string tablePath)
     {
         MemoryStream tableStream;
 
-        //开发期，读Progect/Config下的csv文件
-        var srcPath = Application.dataPath + "/../" + tablePath;
+        //开发期，Asset/Configs下的csv文件
+        var srcPath = Application.dataPath + "/" + tablePath;
         tableStream = new MemoryStream(File.ReadAllBytes(srcPath));
 
         //内存流读取器 using 自动关闭流
@@ -68,6 +73,7 @@ public class ConfigTable<TDatabase> where TDatabase : TableDatabase , new()
         {
             var field = allFieldInfo[i];//当前属性的类型
             var data = itemStrArray[i];//当前属性对应的具体数据
+
             //整数
             if (field.FieldType == typeof(int))
             {
@@ -126,6 +132,21 @@ public class ConfigTable<TDatabase> where TDatabase : TableDatabase , new()
         return DataDB;
     }
 
+    public delegate bool _Condition(TDatabase databaseline);
+
+    public TDatabase FindFirstLine( _Condition condition)
+    {
+       foreach(int _index in _cache.Keys.OrderBy(t => t))
+        {
+            if (condition(_cache[_index]))
+            {
+                return _cache[_index];
+            }
+        }
+
+        return null;
+    }
+
     //获取表格数据
     public TDatabase this[int index]
     {
@@ -143,24 +164,3 @@ public class ConfigTable<TDatabase> where TDatabase : TableDatabase , new()
     }
 
 }
-
-//角色表内数据结构
-public class RoleDatabase : TableDatabase
-{
-    public string Name;//名称
-    public string ModelPath;//模型路径
-}
-
-public class GameTableConfig : Singleton<GameTableConfig>
-{
-    //角色表
-    //public class RoleTable : ConfigTable<RoleDatabase, RoleTable>
-    //{
-    //    void Awake()
-    //    {
-    //        //加载对应表所对应的路径
-    //        load("Config/RoleTable.csv");
-    //    }
-    //}
-}
-

@@ -23,12 +23,15 @@ namespace Assets.Scripts.Core
         {
             base.Awake();
             UI.UIManager.Instance.InitUIManager();
+
+            //调用一个空函数，确保表格管理器加载出来
+            GameTableConfig.Instance.CallBlank();
         }
 
         // Use this for initialization
         void Start()
         {
-
+            LevelManager.Instance.LoadLevelConfigFromTable(1, 1);
         }
 
         // Update is called once per frame

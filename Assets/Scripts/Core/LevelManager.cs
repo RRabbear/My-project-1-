@@ -3,17 +3,60 @@ using UnityEngine;
 using Assets.Scripts.BaseUtils;
 using Assets.Scripts.UI;
 using Assets.Scripts.GamePlay2D;
+using Assets.Scripts.Core;
 
 namespace Assets.Scripts.Core
 {
+    public enum LevelType
+    {
+        Game2DLevel = 1
+    }
+    
+    
     //一个关卡对应一个LevelManager，允许跨场景使用。但是玩家切换关卡时，必须重新初始化LevelManager。如果需要跨大关卡传参，那么往更上层的GameManager缓存里放。
     public class LevelManager : MonoSingleton<LevelManager>
     {
+        //角色控制器不使用单例，不确定是否是好主意，先这样写试试
+        public LevelCharacterManager characterManager;
+
+        public Transform LevelObjectsRoot;
         private void Awake()
         {
+            base.Awake();
             InitLevelEventManager();
             InitLevelEventQueue();
+
+            characterManager = new LevelCharacterManager();
+            characterManager.Init();
+
+            LevelObjectsRoot = GameObject.Find("LevelObjects").transform;
+
         }
+        /// <summary>
+        /// 用这个函数来启动关卡
+        /// </summary>
+        /// <param name="levelID"></param>
+        /// <param name="subLevelID"></param>
+        public void LoadLevelConfigFromTable(int levelID , int subLevelID)
+        {
+            AllLevelSettings levelSetting =  GameTableConfig.Instance.allLevelSettings.FindFirstLine(t => ( t.LevleID == levelID && t.SubLevelID == subLevelID )  );
+
+            RoleSetting newLevelHeroData = GameTableConfig.Instance.roleConifg.FindFirstLine(t => t.RoleID == levelSetting.LevelHeroRoleID);
+
+            //创建主角            
+            LevelEventQueue.Instance.EnqueueEvent(
+                new Character_CMD_SpawnEventArgs(
+                    GamePlay2D_CMDType_Character.Character_Spawn, 
+                    this.gameObject,
+                    Vector3.zero,
+                    CharacterSpwnType.AsHero,
+                    characterManager.getCharacterPrefabByName(newLevelHeroData.RolePrefab)
+                    )
+                );
+
+        }
+
+        
 
         private GameObject getHeroGameObject()
         {
@@ -29,8 +72,7 @@ namespace Assets.Scripts.Core
         // Use this for initialization
         void Start()
         {
-            //创建主角            
-            LevelEventQueue.Instance.EnqueueEvent(new Character_CMD_SpawnEventArgs(GamePlay2D_CMDType_Character.Character_Spawn,null,Vector3.zero, CharacterSpwnType.AsHero, getHeroGameObject()));
+            
 
             //为主角添加一个Type1工具
             LevelEventQueue.Instance.EnqueueEvent(new Character_CMD_AddTool(GamePlay2D_CMDType_Character.Character_AddTool, null, 1, GetHeroInGameInstaceBase<CharacterBase>()));
