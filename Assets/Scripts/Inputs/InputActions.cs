@@ -46,6 +46,15 @@ namespace Assets.Scripts.Inputs
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""MoveXY"",
+                    ""type"": ""Value"",
+                    ""id"": ""b13317a1-d8b5-455d-a2c0-296614aa0c52"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -70,6 +79,61 @@ namespace Assets.Scripts.Inputs
                     ""action"": ""MousePosition"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""52eaa67a-bcfc-4c37-ab83-34830ea216cf"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveXY"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""2eaae283-1b46-40aa-b3bc-4c5c947d6e2e"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveXY"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""beb226c4-c6c3-4ced-8d01-51c84cbe72f4"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveXY"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""939cc26d-bf97-4e54-9294-b80227962b71"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveXY"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""6d32c1d4-2858-4aee-990e-126cb2e7417c"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveXY"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -80,6 +144,7 @@ namespace Assets.Scripts.Inputs
             m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
             m_Player_MouseAction = m_Player.FindAction("MouseAction", throwIfNotFound: true);
             m_Player_MousePosition = m_Player.FindAction("MousePosition", throwIfNotFound: true);
+            m_Player_MoveXY = m_Player.FindAction("MoveXY", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -141,12 +206,14 @@ namespace Assets.Scripts.Inputs
         private IPlayerActions m_PlayerActionsCallbackInterface;
         private readonly InputAction m_Player_MouseAction;
         private readonly InputAction m_Player_MousePosition;
+        private readonly InputAction m_Player_MoveXY;
         public struct PlayerActions
         {
             private @InputActions m_Wrapper;
             public PlayerActions(@InputActions wrapper) { m_Wrapper = wrapper; }
             public InputAction @MouseAction => m_Wrapper.m_Player_MouseAction;
             public InputAction @MousePosition => m_Wrapper.m_Player_MousePosition;
+            public InputAction @MoveXY => m_Wrapper.m_Player_MoveXY;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -162,6 +229,9 @@ namespace Assets.Scripts.Inputs
                     @MousePosition.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMousePosition;
                     @MousePosition.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMousePosition;
                     @MousePosition.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMousePosition;
+                    @MoveXY.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMoveXY;
+                    @MoveXY.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMoveXY;
+                    @MoveXY.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMoveXY;
                 }
                 m_Wrapper.m_PlayerActionsCallbackInterface = instance;
                 if (instance != null)
@@ -172,6 +242,9 @@ namespace Assets.Scripts.Inputs
                     @MousePosition.started += instance.OnMousePosition;
                     @MousePosition.performed += instance.OnMousePosition;
                     @MousePosition.canceled += instance.OnMousePosition;
+                    @MoveXY.started += instance.OnMoveXY;
+                    @MoveXY.performed += instance.OnMoveXY;
+                    @MoveXY.canceled += instance.OnMoveXY;
                 }
             }
         }
@@ -180,6 +253,7 @@ namespace Assets.Scripts.Inputs
         {
             void OnMouseAction(InputAction.CallbackContext context);
             void OnMousePosition(InputAction.CallbackContext context);
+            void OnMoveXY(InputAction.CallbackContext context);
         }
     }
 }
